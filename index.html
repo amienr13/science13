@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>M. Amien Rais | Edukasi & Sains</title>
+    <!-- Font Awesome 6 (icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            color: #1e2a3e;
+        }
+
+        /* ========== LAYOUT UTAMA ========== */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* SIDEBAR (kiri, bisa di-hide) */
+        .sidebar {
+            width: 270px;
+            background: linear-gradient(145deg, #0f2b3d 0%, #123a4d 100%);
+            color: #e0f0f5;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 20;
+        }
+
+        .sidebar.hidden {
+            margin-left: -270px;
+            width: 0;
+            opacity: 0;
+            visibility: collapse;
+        }
+
+        .sidebar-header {
+            padding: 28px 20px;
+            text-align: center;
+            border-bottom: 1px solid #2c5a6e;
+        }
+
+        .sidebar-header h3 {
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            color: #ffd966;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 6px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu li {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu li i {
+            width: 28px;
+            font-size: 1.2rem;
+            color: #7ab3c8;
+        }
+
+        .sidebar-menu li:hover {
+            background: #1d4b5e;
+            border-left-color: #ffb347;
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            padding: 20px 32px 40px;
+            transition: margin 0.3s;
+        }
+
+        /* Tombol toggle sidebar */
+        .toggle-sidebar-btn {
+            background: #1e5a6e;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 8px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .toggle-sidebar-btn:hover {
+            background: #0f3e4e;
+        }
+
+        /* WELCOME SECTION */
+        .welcome-box {
+            text-align: center;
+            margin: 20px 0 30px;
+            background: linear-gradient(120deg, #eef5f9, #ffffff);
+            padding: 25px 20px;
+            border-radius: 48px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .welcome-box h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0a4b62;
+        }
+
+        .welcome-box h1 span {
+            color: #e67e22;
+            font-weight: 800;
+        }
+
+        .welcome-box p {
+            font-size: 1.2rem;
+            color: #2c6e8f;
+            margin-top: 8px;
+        }
+
+        /* DROPDOWN + HOME ICON (5 dropdown custom) */
+        .dropdown-navbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin: 30px 0 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 60px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background: #eef2f5;
+            color: #1e4660;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .dropbtn i {
+            font-size: 0.9rem;
+        }
+
+        .custom-dropdown:hover .dropbtn {
+            background: #cbdde6;
+            color: #0a3b4b;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            z-index: 15;
+            top: 48px;
+            left: 0;
+            overflow: hidden;
+            border: 1px solid #dce5ec;
+        }
+
+        .dropdown-content a {
+            color: #1e3b4a;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            transition: 0.1s;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #e9f1f5;
+            border-left-color: #f39c12;
+            padding-left: 24px;
+        }
+
+        .custom-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Icon Home */
+        .home-icon-btn {
+            background: #f4a261;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .home-icon-btn:hover {
+            background: #e76f2d;
+            transform: scale(1.05);
+        }
+
+        /* SLIDER AREA */
+        .slider-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            background: #00000010;
+        }
+
+        .slider-frame {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Icons E-learning, Validasi, Skripsi */
+        .features-row {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin: 55px 0 45px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 24px 28px;
+            border-radius: 48px;
+            text-align: center;
+            width: 180px;
+            transition: all 0.25s;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+        }
+
+        .feature-card i {
+            font-size: 2.8rem;
+            color: #2c7da0;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1b4f66;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            background: #fef9e6;
+            border-color: #f3b668;
+        }
+
+        /* Hubungi Saya + sosial media */
+        .contact-section {
+            background: #f0f5f9;
+            padding: 28px 24px;
+            border-radius: 40px;
+            margin: 20px 0 20px;
+            text-align: center;
+        }
+
+        .contact-section h3 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #1f5068;
+            margin-bottom: 18px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+
+        .social-icons a {
+            background: white;
+            width: 56px;
+            height: 56px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            font-size: 1.8rem;
+            transition: 0.2s;
+            color: #2c3e50;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.1);
+            background: #ffd966;
+            color: #1e2a3e;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.85rem;
+            border-top: 1px solid #cbdde2;
+            color: #4b6f82;
+        }
+
+        /* responsif */
+        @media (max-width: 800px) {
+            .main-content {
+                padding: 16px;
+            }
+            .dropbtn {
+                padding: 6px 14px;
+                font-size: 0.8rem;
+            }
+            .welcome-box h1 {
+                font-size: 1.5rem;
+            }
+            .slide img {
+                height: 220px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .dropdown-navbar {
+                border-radius: 28px;
+                gap: 12px;
+            }
+            .feature-card {
+                width: 140px;
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- SIDEBAR KIRI (bisa di hide) -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-flask"></i> SainsPedia</h3>
+            <p>Edukasi & Inovasi</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><i class="fas fa-chalkboard-user"></i> <span>Menu 1 (Dashboard)</span></li>
+            <li><i class="fas fa-microscope"></i> <span>Menu 2 (Lab Riset)</span></li>
+            <li><i class="fas fa-brain"></i> <span>Menu 3 (Neurosains)</span></li>
+            <li><i class="fas fa-globe"></i> <span>Menu 4 (Ekosistem)</span></li>
+            <li><i class="fas fa-rocket"></i> <span>Menu 5 (Future Tech)</span></li>
+        </ul>
+        <div style="padding: 20px; font-size:0.75rem; text-align:center; border-top:1px solid #2c5a6e; margin-top:20px;">
+            <i class="fas fa-atom"></i> custom sidebar
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <button class="toggle-sidebar-btn" id="toggleSidebarBtn">
+            <i class="fas fa-bars"></i> Sembunyikan Sidebar
+        </button>
+
+        <!-- WELCOME & MOTTO -->
+        <div class="welcome-box">
+            <h1>Welcome to <span>M. Amien Rais</span></h1>
+            <p><i class="fas fa-seedling"></i> Mari membuat dunia yang lebih baik melalui sains & edukasi <i class="fas fa-atom"></i></p>
+        </div>
+
+        <!-- 5 DROPDOWN (setiap menu punya 4 submenu) + icon home -->
+        <div class="dropdown-navbar">
+            <!-- Dropdown 1 -->
+            <div class="custom-dropdown">
+                <button class="dropbtn"><i class="fas fa-book-open"></i> Materi <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">Submenu 1 - Fisika Dasar</a>
+                    <a href="#">Submenu 2 - Kimia Organik</a>
+                    <a href="#">Submenu 3 - Biologi Molekuler</a>
+                    <a href="#">Submenu 4 - Matematika Terapan</a>
+                </div>
+            </div>
+            <!-- Dropdown 2 -->
+            <div class="custom-dropdown">
+                <button class="dropbtn"><i class="fas fa-chart-line"></i> Statistik <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">Submenu 1 - Data Sains</a>
+                    <a href="#">Submenu 2 - Probabilitas</a>
+                    <a href="#">Submenu 3 - Visualisasi</a>
+                    <a href="#">Submenu 4 - Machine Learning</a>
+                </div>
+            </div>
+            <!-- Dropdown 3 -->
+            <div class="custom-dropdown">
+                <button class="dropbtn"><i class="fas fa-laptop-code"></i> Coding <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">Submenu A - Python</a>
+                    <a href="#">Submenu B - JavaScript</a>
+                    <a href="#">Submenu C - Database</a>
+                    <a href="#">Submenu D - Web Dev</a>
+                </div>
+            </div>
+            <!-- Dropdown 4 -->
+            <div class="custom-dropdown">
+                <button class="dropbtn"><i class="fas fa-flask"></i> Eksperimen <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">Laboratorium Virtual</a>
+                    <a href="#">Simulasi Fisika</a>
+                    <a href="#">Proyek STEM</a>
+                    <a href="#">Riset Mandiri</a>
+                </div>
+            </div>
+            <!-- Dropdown 5 -->
+            <div class="custom-dropdown">
+                <button class="dropbtn"><i class="fas fa-graduation-cap"></i> Karier <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">Beasiswa Sains</a>
+                    <a href="#">Magang Riset</a>
+                    <a href="#">Jurnal Ilmiah</a>
+                    <a href="#">Komunitas Edu</a>
+                </div>
+            </div>
+
+            <!-- ICON HOME (kembali ke home) -->
+            <div class="home-icon-btn" id="homeIconBtn">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- SLIDER PHOTOS (otomatis berganti) -->
+        <div class="slider-container">
+            <div class="slider-frame">
+                <div class="slides" id="slides">
+                    <div class="slide"><img src="https://picsum.photos/id/20/1200/500" alt="Sains 1"></div>
+                    <div class="slide"><img src="https://picsum.photos/id/26/1200/500" alt="Edukasi 2"></div>
+                    <div class="slide"><img src="https://picsum.photos/id/29/1200/500" alt="Teknologi 3"></div>
+                    <div class="slide"><img src="https://picsum.photos/id/39/1200/500" alt="Laboratorium 4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ICON CUSTOM: E-learning, Validasi, Skripsi -->
+        <div class="features-row">
+            <div class="feature-card" id="btnElearning">
+                <i class="fas fa-chalkboard"></i>
+                <h3>E-learning</h3>
+            </div>
+            <div class="feature-card" id="btnValidasi">
+                <i class="fas fa-check-circle"></i>
+                <h3>Validasi</h3>
+            </div>
+            <div class="feature-card" id="btnSkripsi">
+                <i class="fas fa-scroll"></i>
+                <h3>Skripsi</h3>
+            </div>
+        </div>
+
+        <!-- HUBUNGI SAYA + MEDSOS -->
+        <div class="contact-section">
+            <h3><i class="fas fa-address-card"></i> Hubungi Saya</h3>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <i class="far fa-copyright"></i> create by Amien Rais 2026 — Edukasi & Sains untuk masa depan
+        </div>
+    </main>
+</div>
+
+<script>
+    // ============ 1. TOGGLE SIDEBAR (HIDE / SHOW) ============
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebarBtn');
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('hidden');
+        // Ubah teks tombol sesuai kondisi
+        if (sidebar.classList.contains('hidden')) {
+            toggleBtn.innerHTML = '<i class="fas fa-bars"></i> Tampilkan Sidebar';
+        } else {
+            toggleBtn.innerHTML = '<i class="fas fa-bars"></i> Sembunyikan Sidebar';
+        }
+    });
+
+    // ============ 2. ICON HOME -> refresh ke home (scroll ke atas atau reload page) ============
+    const homeBtn = document.getElementById('homeIconBtn');
+    homeBtn.addEventListener('click', () => {
+        // scroll ke bagian paling atas halaman (seperti home)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // bisa juga reload jika menginginkan reset state, tapi lebih baik smooth scroll
+        // Untuk menjaga agar dropdown tetap di awal, kita hanya scroll ke welcome box.
+    });
+
+    // ============ 3. SLIDER OTOMATIS (photos) ============
+    const slidesContainer = document.getElementById('slides');
+    const slides = document.querySelectorAll('.slide');
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    let autoSlideInterval;
+
+    function updateSlider() {
+        if (!slidesContainer) return;
+        const offset = -currentIndex * 100;
+        slidesContainer.style.transform = `translateX(${offset}%)`;
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+    }
+
+    function startAutoSlide() {
+        if (autoSlideInterval) clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(() => {
+            nextSlide();
+        }, 3800); // ganti gambar setiap 3.8 detik
+    }
+
+    // inisialisasi slider & auto
+    if (slides.length > 0) {
+        updateSlider();
+        startAutoSlide();
+        // Optional: pause on hover
+        const sliderContainer = document.querySelector('.slider-container');
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mouseenter', () => {
+                clearInterval(autoSlideInterval);
+            });
+            sliderContainer.addEventListener('mouseleave', () => {
+                startAutoSlide();
+            });
+        }
+    }
+
+    // ============ 4. ICON FEATURE: nanti bisa tambah link. Sementara alert custom ============
+    const eLearning = document.getElementById('btnElearning');
+    const validasi = document.getElementById('btnValidasi');
+    const skripsi = document.getElementById('btnSkripsi');
+
+    eLearning.addEventListener('click', () => {
+        alert('🚀 Halaman E-learning akan segera hadir. (Custom halaman sesuai kebutuhan Anda)');
+        // nanti bisa diganti ke link: window.location.href = "elearning.php";
+    });
+    validasi.addEventListener('click', () => {
+        alert('✅ Fitur Validasi Karya Ilmiah. Segera tersedia.');
+    });
+    skripsi.addEventListener('click', () => {
+        alert('📚 Pusat Referensi Skripsi & Tugas Akhir Sains.');
+    });
+
+    // ============ 5. MENU SIDEBAR contoh custom bebas (console log) ============
+    const sideMenuItems = document.querySelectorAll('.sidebar-menu li');
+    sideMenuItems.forEach((item, idx) => {
+        item.addEventListener('click', () => {
+            const menuText = item.querySelector('span')?.innerText || `Menu ${idx+1}`;
+            alert(`Anda memilih: ${menuText}\n(nanti link ke halaman sesuai kebutuhan)`);
+        });
+    });
+
+    // ============ Untuk dropdown custom tetap nyaman di klik, tidak perlu tambahan. ============
+    // Semua menu dropdown sudah bekerja via CSS hover.
+    // Ikon sosial media hanya contoh; Anda bisa mengganti link # dengan profil asli.
+    console.log("Website Personal M. Amien Rais - siap hosting via GitHub");
+</script>
+</body>
+</html>
