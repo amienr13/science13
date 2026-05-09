@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Tentang | M. Amien Rais</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: #f4f7fc;
+            color: #1e2a3e;
+        }
+
+        /* ========== LAYOUT UTAMA ========== */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* SIDEBAR (sama dengan index) */
+        .sidebar {
+            width: 270px;
+            background: linear-gradient(145deg, #0f2b3d 0%, #123a4d 100%);
+            color: #e0f0f5;
+            transition: width 0.25s ease-in-out, padding 0.2s;
+            overflow-x: hidden;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 20;
+            flex-shrink: 0;
+        }
+
+        .sidebar.hidden {
+            width: 0;
+            padding: 0;
+        }
+
+        .sidebar.hidden .sidebar-header,
+        .sidebar.hidden .sidebar-menu,
+        .sidebar.hidden .sidebar-footer {
+            display: none;
+        }
+
+        .sidebar-header {
+            padding: 28px 20px;
+            text-align: center;
+            border-bottom: 1px solid #2c5a6e;
+            white-space: nowrap;
+        }
+
+        .sidebar-header h3 {
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            color: #ffd966;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 6px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu li {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+            border-left: 4px solid transparent;
+            white-space: nowrap;
+        }
+
+        .sidebar-menu li i {
+            width: 28px;
+            font-size: 1.2rem;
+            color: #7ab3c8;
+        }
+
+        .sidebar-menu li:hover {
+            background: #1d4b5e;
+            border-left-color: #ffb347;
+            color: white;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            font-size: 0.75rem;
+            text-align: center;
+            border-top: 1px solid #2c5a6e;
+            margin-top: 20px;
+            white-space: nowrap;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            padding: 20px 32px 40px;
+            min-width: 0;
+        }
+
+        /* Top bar (sama dengan index) */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .toggle-sidebar-btn {
+            background: #1e5a6e;
+            border: none;
+            color: white;
+            font-size: 1.6rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .toggle-sidebar-btn:hover {
+            background: #0f3e4e;
+            transform: scale(1.02);
+        }
+
+        .welcome-box {
+            flex: 1;
+            text-align: left;
+            background: linear-gradient(120deg, #eef5f9, #ffffff);
+            padding: 12px 24px;
+            border-radius: 60px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .welcome-box h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0a4b62;
+            margin-bottom: 4px;
+        }
+
+        .welcome-box h1 span {
+            color: #e67e22;
+        }
+
+        .welcome-box p {
+            font-size: 0.9rem;
+            color: #2c6e8f;
+            margin-top: 0;
+        }
+
+        .header-social {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .header-social a {
+            background: white;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            color: #2c3e50;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            text-decoration: none;
+        }
+
+        .header-social a:hover {
+            transform: scale(1.1);
+            background: #ffd966;
+            color: #1e2a3e;
+        }
+
+        /* Dropdown navbar (sama dengan index) */
+        .dropdown-navbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin: 20px 0 30px;
+            background: white;
+            padding: 15px 24px;
+            border-radius: 60px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .custom-dropdown {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .dropbtn {
+            background: #eef2f5;
+            color: #1e4660;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .dropbtn i {
+            font-size: 0.9rem;
+        }
+
+        .custom-dropdown:hover .dropbtn {
+            background: #cbdde6;
+            color: #0a3b4b;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            z-index: 15;
+            top: 100%;
+            left: 0;
+            overflow: hidden;
+            border: 1px solid #dce5ec;
+            margin-top: 4px;
+        }
+
+        .custom-dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #1e3b4a;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            transition: 0.1s;
+            border-left: 3px solid transparent;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #e9f1f5;
+            border-left-color: #f39c12;
+            padding-left: 24px;
+        }
+
+        .home-icon-btn {
+            background: #f4a261;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .home-icon-btn:hover {
+            background: #e76f2d;
+            transform: scale(1.05);
+        }
+
+        /* ========== KONTEN UTAMA: DUA KOLOM ========== */
+        .two-columns {
+            display: flex;
+            gap: 40px;
+            margin: 20px 0 40px;
+            flex-wrap: wrap;
+        }
+
+        .main-article {
+            flex: 2;
+            min-width: 250px;
+        }
+
+        .main-article h1 {
+            font-size: 2.5rem;
+            color: #0a4b62;
+            border-left: 6px solid #e67e22;
+            padding-left: 20px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .main-article .content-text {
+            background: white;
+            padding: 28px;
+            border-radius: 32px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e2edf2;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: #2c3e50;
+        }
+
+        .main-article .content-text p {
+            margin-bottom: 18px;
+        }
+
+        /* Sidebar kanan (widget) */
+        .right-sidebar {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .widget {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.03);
+            border: 1px solid #e2edf2;
+        }
+
+        .widget h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1f5068;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #ffd966;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .recent-posts {
+            list-style: none;
+        }
+
+        .recent-posts li {
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed #dce5ec;
+        }
+
+        .recent-posts li a {
+            text-decoration: none;
+            color: #2c7da0;
+            font-weight: 500;
+            transition: 0.2s;
+            display: block;
+        }
+
+        .recent-posts li a:hover {
+            color: #e67e22;
+            transform: translateX(5px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #e67e22;
+            margin: 10px 0 5px;
+        }
+
+        .stat-label {
+            color: #4b6f82;
+            font-size: 0.9rem;
+        }
+
+        /* Hubungi Saya (sama dengan index) */
+        .contact-section {
+            background: #f0f5f9;
+            padding: 28px 24px;
+            border-radius: 40px;
+            margin: 20px 0 20px;
+            text-align: center;
+        }
+
+        .contact-section h3 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #1f5068;
+            margin-bottom: 18px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+
+        .social-icons a {
+            background: white;
+            width: 56px;
+            height: 56px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            font-size: 1.8rem;
+            transition: 0.2s;
+            color: #2c3e50;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            text-decoration: none;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.1);
+            background: #ffd966;
+            color: #1e2a3e;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.85rem;
+            border-top: 1px solid #cbdde2;
+            color: #4b6f82;
+        }
+
+        /* Responsif */
+        @media (max-width: 850px) {
+            .two-columns {
+                flex-direction: column;
+            }
+            .main-article h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .main-content {
+                padding: 16px;
+            }
+            .top-bar {
+                gap: 16px;
+            }
+            .welcome-box h1 {
+                font-size: 1.2rem;
+            }
+            .welcome-box p {
+                font-size: 0.75rem;
+            }
+            .header-social a {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <!-- SIDEBAR (default hidden) -->
+    <aside class="sidebar hidden" id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-flask"></i> SainsPedia</h3>
+            <p>Edukasi & Inovasi</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><i class="fas fa-chalkboard-user"></i> <span>Dashboard</span></li>
+            <li id="tentangSidebar"><i class="fas fa-microscope"></i> <span>Tentang</span></li>
+            <li><i class="fas fa-brain"></i> <span>Profil</span></li>
+        </ul>
+        <div class="sidebar-footer">
+            <i class="fas fa-atom"></i> custom sidebar
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- Top bar (toggle + welcome + social) -->
+        <div class="top-bar">
+            <button class="toggle-sidebar-btn" id="toggleSidebarBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="welcome-box">
+                <h1>Welcome to <span>M. Amien Rais Website</span></h1>
+                <p><i class="fas fa-seedling"></i> Mari membuat dunia yang lebih baik melalui sains & edukasi <i class="fas fa-atom"></i></p>
+            </div>
+            <div class="header-social">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <!-- Dropdown navbar (sama dengan index) -->
+        <div class="dropdown-navbar">
+            <div class="custom-dropdown">
+                <button class="dropbtn"><i class="fas fa-book-open"></i> Pengajaran <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">E-Learning</a>
+                    <a href="#">Validasi</a>
+                    <a href="#">Proposal Skripsi</a>
+                    <a href="#">Sidang Skripsi</a>
+                </div>
+            </div>
+            <div class="custom-dropdown">
+                <button class="dropbtn"><i class="fas fa-flask"></i> Penelitian <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">Neurosains</a>
+                    <a href="#">Penelitian Terapan</a>
+                    <a href="#">Pendidikan</a>
+                </div>
+            </div>
+            <div class="custom-dropdown">
+                <button class="dropbtn"><i class="fas fa-graduation-cap"></i> Pengabdian <i class="fas fa-chevron-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="#">Kemahasiswaan</a>
+                    <a href="#">Artikel Pengabdian</a>
+                    <a href="#">Opini</a>
+                </div>
+            </div>
+            <div class="home-icon-btn" id="homeIconBtn">
+                <i class="fas fa-home"></i>
+            </div>
+        </div>
+
+        <!-- KONTEN DUA KOLOM -->
+        <div class="two-columns">
+            <!-- Kolom kiri: artikel utama -->
+            <div class="main-article">
+    <h1>Hakikat Ilmu Sains</h1>
+    <!-- Foto di bawah judul -->
+    <div style="margin: 20px 0; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="https://picsum.photos/id/24/800/400" alt="Ilustrasi Sains" style="width: 100%; height: auto; display: block; object-fit: cover;">
+    </div>
+    <div class="content-text">
+                    <p><strong>Sains</strong> (dari bahasa Latin: <em>scientia</em> yang berarti "pengetahuan") adalah usaha sistematis untuk membangun dan mengorganisasikan pengetahuan dalam bentuk penjelasan dan prediksi tentang alam semesta. Sains modern biasanya terbagi menjadi tiga cabang utama: ilmu alam (biologi, fisika, kimia), ilmu sosial (sosiologi, ekonomi, psikologi), dan ilmu formal (logika, matematika, ilmu komputer).</p>
+                    <p>Hakikat sains tidak hanya terletak pada kumpulan fakta, tetapi juga pada proses <strong>metode ilmiah</strong> yang meliputi observasi, perumusan hipotesis, eksperimen, dan analisis data. Nilai-nilai sains seperti kejujuran intelektual, keterbukaan, dan skeptisisme menjadi fondasi bagi kemajuan peradaban manusia.</p>
+                    <p>Dalam konteks pendidikan, memahami hakikat sains membantu mahasiswa tidak hanya menghafal rumus, tetapi juga mengembangkan kemampuan berpikir kritis, kreatif, dan solutif. Seperti yang dikatakan Carl Sagan, "Ilmu pengetahuan adalah sebuah cara berpikir, jauh lebih dari sekadar kumpulan pengetahuan."</p>
+                    <p>Di era digital saat ini, literasi sains menjadi sangat penting. Masyarakat yang melek sains mampu membedakan informasi yang valid dan hoaks, serta mengambil keputusan berdasarkan bukti. Oleh karena itu, membangun budaya ilmiah sejak dini adalah investasi jangka panjang bagi bangsa.</p>
+                </div>
+            </div>
+
+            <!-- Kolom kanan: widget -->
+            <div class="right-sidebar">
+                <!-- Widget: Postingan Terbaru -->
+                <div class="widget">
+                    <h3><i class="fas fa-newspaper"></i> Postingan Terbaru</h3>
+                    <ul class="recent-posts">
+                        <li><a href="#">Hakikat Ilmu Sains dalam Pendidikan Modern</a></li>
+                        <li><a href="#">Metode Ilmiah: Langkah-langkah dan Contoh</a></li>
+                        <li><a href="#">Peran Teknologi dalam Validasi Skripsi</a></li>
+                        <li><a href="#">Neurosains dan Pembelajaran Abad 21</a></li>
+                        <li><a href="#">Etika Penelitian di Era Digital</a></li>
+                    </ul>
+                </div>
+
+                <!-- Widget: Statistik Pengunjung -->
+                <div class="widget">
+                    <h3><i class="fas fa-chart-line"></i> Statistik Pengunjung</h3>
+                    <div class="stat-number">1,284</div>
+                    <div class="stat-label">Pengunjung hari ini</div>
+                    <div class="stat-number">24,910</div>
+                    <div class="stat-label">Total pengunjung bulan ini</div>
+                    <div class="stat-number">187,332</div>
+                    <div class="stat-label">Total keseluruhan</div>
+                </div>
+            </div>
+        </div>
+		<!-- Bagikan Halaman -->
+<div class="share-page-section" style="background: white; border-radius: 32px; padding: 24px; margin: 40px 0 20px; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.05); border: 1px solid #e2edf2;">
+    <h3 style="font-size: 1.4rem; color: #1f5068; margin-bottom: 18px;"><i class="fas fa-share-alt"></i> Bagikan Halaman Ini</h3>
+    <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap;">
+        <a href="#" id="shareWA" style="background: #25D366; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; transition: 0.2s; text-decoration: none;"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" id="shareFB" style="background: #1877F2; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; transition: 0.2s; text-decoration: none;"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" id="shareX" style="background: #000000; color: white; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; transition: 0.2s; text-decoration: none;"><i class="fab fa-x-twitter"></i></a>
+        <button id="copyLinkBtnShare" style="background: #3498db; color: white; border: none; width: 50px; height: 50px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; cursor: pointer; transition: 0.2s;"><i class="fas fa-link"></i></button>
+    </div>
+    <div id="copyMessageShare" style="margin-top: 12px; font-size: 0.8rem; color: #2c7da0;"></div>
+</div>
+
+        <!-- HUBUNGI SAYA -->
+        <div class="contact-section">
+            <h3><i class="fas fa-address-card"></i> Hubungi Saya</h3>
+            <div class="social-icons">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <i class="far fa-copyright"></i> create by Amien Rais 2026 — Edukasi & Sains untuk masa depan
+        </div>
+    </main>
+</div>
+
+<script>
+    // ========== TOGGLE SIDEBAR ==========
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebarBtn');
+    toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('hidden');
+    });
+
+    // ========== HOME ICON (kembali ke halaman utama) ==========
+    const homeBtn = document.getElementById('homeIconBtn');
+    homeBtn.addEventListener('click', () => {
+        window.location.href = 'index.html'; // ganti dengan file homepage Anda
+    });
+
+    // ========== SIDEBAR MENU: khusus "Tentang" (tetap di halaman ini) ==========
+    const tentangSidebar = document.getElementById('tentangSidebar');
+    if (tentangSidebar) {
+        tentangSidebar.addEventListener('click', () => {
+            // sudah berada di halaman tentang, bisa refresh atau biarkan
+            window.location.reload();
+        });
+    }
+
+    // Menu sidebar lainnya (contoh alert)
+    const sideMenuItems = document.querySelectorAll('.sidebar-menu li');
+    sideMenuItems.forEach((item, idx) => {
+        if (item.id !== 'tentangSidebar') {
+            item.addEventListener('click', () => {
+                const menuText = item.querySelector('span')?.innerText || `Menu ${idx+1}`;
+                alert(`Anda memilih: ${menuText}\n(nanti link ke halaman sesuai kebutuhan)`);
+            });
+        }
+    });
+// ========== BAGIKAN HALAMAN ==========
+const currentUrlShare = encodeURIComponent(window.location.href);
+const shareTitle = encodeURIComponent("Hakikat Ilmu Sains | M. Amien Rais");
+
+// WhatsApp
+const waBtn = document.getElementById('shareWA');
+if (waBtn) {
+    waBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const waUrl = `https://wa.me/?text=${shareTitle}%20-%20${window.location.href}`;
+        window.open(waUrl, '_blank');
+    });
+}
+
+// Facebook
+const fbBtn = document.getElementById('shareFB');
+if (fbBtn) {
+    fbBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+        window.open(fbUrl, '_blank');
+    });
+}
+
+// X (Twitter)
+const xBtn = document.getElementById('shareX');
+if (xBtn) {
+    xBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const xUrl = `https://twitter.com/intent/tweet?text=${shareTitle}&url=${encodeURIComponent(window.location.href)}`;
+        window.open(xUrl, '_blank');
+    });
+}
+
+// Salin tautan
+const copyLinkShare = document.getElementById('copyLinkBtnShare');
+const copyMsgShare = document.getElementById('copyMessageShare');
+if (copyLinkShare) {
+    copyLinkShare.addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            copyMsgShare.innerHTML = '<i class="fas fa-check-circle"></i> Link berhasil disalin!';
+            setTimeout(() => { copyMsgShare.innerHTML = ''; }, 2500);
+        } catch (err) {
+            copyMsgShare.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Gagal menyalin.';
+        }
+    });
+}
+
+</script>
+</body>
+</html>
