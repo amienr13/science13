@@ -40,7 +40,6 @@
             flex-shrink: 0;
         }
 
-        /* Saat hidden: lebar 0, konten di dalamnya disembunyikan */
         .sidebar.hidden {
             width: 0;
             padding: 0;
@@ -116,10 +115,19 @@
             flex: 1;
             padding: 20px 32px 40px;
             transition: margin 0.2s;
-            min-width: 0; /* mencegah overflow */
+            min-width: 0;
         }
 
-        /* Tombol toggle sidebar (hanya ikon ☰) */
+        /* Baris atas: tombol toggle + welcome box + social icons (header) */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* Tombol toggle sidebar */
         .toggle-sidebar-btn {
             background: #1e5a6e;
             border: none;
@@ -129,12 +137,12 @@
             height: 48px;
             border-radius: 50%;
             cursor: pointer;
-            margin-bottom: 20px;
             transition: 0.2s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
 
         .toggle-sidebar-btn:hover {
@@ -142,20 +150,21 @@
             transform: scale(1.02);
         }
 
-        /* WELCOME SECTION */
+        /* Welcome box */
         .welcome-box {
-            text-align: center;
-            margin: 20px 0 30px;
+            flex: 1;
+            text-align: left;
             background: linear-gradient(120deg, #eef5f9, #ffffff);
-            padding: 25px 20px;
-            border-radius: 48px;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.02), 0 2px 4px rgba(0,0,0,0.05);
+            padding: 12px 24px;
+            border-radius: 60px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .welcome-box h1 {
-            font-size: 2.2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #0a4b62;
+            margin-bottom: 4px;
         }
 
         .welcome-box h1 span {
@@ -163,19 +172,47 @@
         }
 
         .welcome-box p {
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             color: #2c6e8f;
-            margin-top: 8px;
+            margin-top: 0;
         }
 
-        /* ----- DROPDOWN NAVBAR (tidak cepat hilang) ----- */
+        /* Social icons di header (mirip dengan yang di footer, tapi ukuran lebih kecil) */
+        .header-social {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .header-social a {
+            background: white;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            transition: 0.2s;
+            color: #2c3e50;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            text-decoration: none;
+        }
+
+        .header-social a:hover {
+            transform: scale(1.1);
+            background: #ffd966;
+            color: #1e2a3e;
+        }
+
+        /* ----- DROPDOWN NAVBAR ----- */
         .dropdown-navbar {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: center;
             gap: 18px;
-            margin: 30px 0 20px;
+            margin: 20px 0 20px;
             background: white;
             padding: 15px 24px;
             border-radius: 60px;
@@ -212,7 +249,6 @@
             color: #0a3b4b;
         }
 
-        /* Perbaikan: dropdown content tetap terbuka saat mouse bergerak dari tombol ke menu */
         .dropdown-content {
             display: none;
             position: absolute;
@@ -225,18 +261,11 @@
             left: 0;
             overflow: hidden;
             border: 1px solid #dce5ec;
-            margin-top: 4px;   /* sedikit jarak agar tidak terlalu mepet, tetap aman */
+            margin-top: 4px;
         }
 
-        /* Agar dropdown tidak cepat hilang, kita perlu area hover yang kontinyu.
-           Dengan menambahkan pseudo-element atau memperluas area, 
-           tapi cara termudah: beri transisi dengan display block pada hover.
-           Karena tidak ada gap yang besar (margin-top hanya 4px), 
-           saat mouse turun ke dropdown, parent masih dalam keadaan hover.
-           Untuk memastikan, kita juga bisa atur .custom-dropdown memiliki padding-bottom.
-        */
         .custom-dropdown {
-            padding-bottom: 8px;  /* memperluas area hover ke bawah */
+            padding-bottom: 8px;
         }
 
         .custom-dropdown:hover .dropdown-content {
@@ -351,7 +380,7 @@
             border-color: #f3b668;
         }
 
-        /* Hubungi Saya */
+        /* Hubungi Saya (bagian bawah) */
         .contact-section {
             background: #f0f5f9;
             padding: 28px 24px;
@@ -409,12 +438,27 @@
             .main-content {
                 padding: 16px;
             }
+            .top-bar {
+                gap: 16px;
+                margin-bottom: 20px;
+            }
+            .welcome-box h1 {
+                font-size: 1.2rem;
+            }
+            .welcome-box p {
+                font-size: 0.75rem;
+            }
+            .welcome-box {
+                padding: 8px 16px;
+            }
+            .header-social a {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
             .dropbtn {
                 padding: 6px 14px;
                 font-size: 0.8rem;
-            }
-            .welcome-box h1 {
-                font-size: 1.5rem;
             }
             .slide img {
                 height: 220px;
@@ -435,18 +479,16 @@
 </head>
 <body>
 <div class="app-container">
-    <!-- SIDEBAR KIRI - default tersembunyi (ditambahkan class "hidden") -->
+    <!-- SIDEBAR KIRI - default tersembunyi -->
     <aside class="sidebar hidden" id="sidebar">
         <div class="sidebar-header">
             <h3><i class="fas fa-flask"></i> SainsPedia</h3>
             <p>Edukasi & Inovasi</p>
         </div>
         <ul class="sidebar-menu">
-            <li><i class="fas fa-chalkboard-user"></i> <span>Menu 1 (Dashboard)</span></li>
-            <li><i class="fas fa-microscope"></i> <span>Menu 2 (Lab Riset)</span></li>
-            <li><i class="fas fa-brain"></i> <span>Menu 3 (Neurosains)</span></li>
-            <li><i class="fas fa-globe"></i> <span>Menu 4 (Ekosistem)</span></li>
-            <li><i class="fas fa-rocket"></i> <span>Menu 5 (Future Tech)</span></li>
+            <li><i class="fas fa-chalkboard-user"></i> <span>Dashboard</span></li>
+            <li><i class="fas fa-microscope"></i> <span>Tentang</span></li>
+            <li><i class="fas fa-brain"></i> <span>Profil</span></li>
         </ul>
         <div class="sidebar-footer">
             <i class="fas fa-atom"></i> custom sidebar
@@ -455,66 +497,52 @@
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
-        <!-- Tombol dengan ikon garis tiga (☰) -->
-        <button class="toggle-sidebar-btn" id="toggleSidebarBtn">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <div class="welcome-box">
-            <h1>Welcome to <span>M. Amien Rais</span></h1>
-            <p><i class="fas fa-seedling"></i> Mari membuat dunia yang lebih baik melalui sains & edukasi <i class="fas fa-atom"></i></p>
+        <!-- Baris atas: tombol toggle + welcome box + social icons (header) -->
+        <div class="top-bar">
+            <button class="toggle-sidebar-btn" id="toggleSidebarBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="welcome-box">
+                <h1>Welcome to <span>M. Amien Rais Website</span></h1>
+                <p><i class="fas fa-seedling"></i> Mari membuat dunia yang lebih baik melalui sains & edukasi <i class="fas fa-atom"></i></p>
+            </div>
+            <!-- Social media icons di header -->
+            <div class="header-social">
+                <a href="https://www.instagram.com/amienzraptor/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://vm.tiktok.com/ZS9FDbjBTy9TS-XlS2J/" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.youtube.com/@scibreak6785" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://api.whatsapp.com/send/?phone=%2B6283850298181&text&type=phone_number&app_absent=0" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
         </div>
 
-        <!-- 5 DROPDOWN + home icon -->
+        <!-- 3 DROPDOWN + home icon (sesuai file Anda) -->
         <div class="dropdown-navbar">
             <!-- Dropdown 1 -->
             <div class="custom-dropdown">
-                <button class="dropbtn"><i class="fas fa-book-open"></i> Materi <i class="fas fa-chevron-down"></i></button>
+                <button class="dropbtn"><i class="fas fa-book-open"></i> Pengajaran <i class="fas fa-chevron-down"></i></button>
                 <div class="dropdown-content">
-                    <a href="#">Submenu 1 - Fisika</a>
-                    <a href="#">Submenu 2 - Kimia</a>
-                    <a href="#">Submenu 3 - Biologi</a>
-                    <a href="#">Submenu 4 - Pendidikan</a>
+                    <a href="#">E-Learning</a>
+                    <a href="#">Validasi</a>
+                    <a href="#">Proposal Skripsi</a>
+                    <a href="#">Sidang Skripsi</a>
                 </div>
             </div>
             <!-- Dropdown 2 -->
             <div class="custom-dropdown">
-                <button class="dropbtn"><i class="fas fa-chart-line"></i> Statistik <i class="fas fa-chevron-down"></i></button>
+                <button class="dropbtn"><i class="fas fa-flask"></i> Penelitian <i class="fas fa-chevron-down"></i></button>
                 <div class="dropdown-content">
-                    <a href="#">Data Sains</a>
-                    <a href="#">Probabilitas</a>
-                    <a href="#">Visualisasi</a>
-                    <a href="#">Machine Learning</a>
+                    <a href="#">Neurosains</a>
+                    <a href="#">Penelitian Terapan</a>
+                    <a href="#">Pendidikan</a>
                 </div>
             </div>
             <!-- Dropdown 3 -->
             <div class="custom-dropdown">
-                <button class="dropbtn"><i class="fas fa-laptop-code"></i> Coding <i class="fas fa-chevron-down"></i></button>
+                <button class="dropbtn"><i class="fas fa-graduation-cap"></i> Pengabdian <i class="fas fa-chevron-down"></i></button>
                 <div class="dropdown-content">
-                    <a href="#">Python</a>
-                    <a href="#">JavaScript</a>
-                    <a href="#">Database</a>
-                    <a href="#">Web Dev</a>
-                </div>
-            </div>
-            <!-- Dropdown 4 -->
-            <div class="custom-dropdown">
-                <button class="dropbtn"><i class="fas fa-flask"></i> Eksperimen <i class="fas fa-chevron-down"></i></button>
-                <div class="dropdown-content">
-                    <a href="#">Virtual Lab</a>
-                    <a href="#">Simulasi Fisika</a>
-                    <a href="#">Proyek STEM</a>
-                    <a href="#">Riset Mandiri</a>
-                </div>
-            </div>
-            <!-- Dropdown 5 -->
-            <div class="custom-dropdown">
-                <button class="dropbtn"><i class="fas fa-graduation-cap"></i> Kemahasiswaan <i class="fas fa-chevron-down"></i></button>
-                <div class="dropdown-content">
-                    <a href="#">Beasiswa</a>
-                    <a href="#">MBKM</a>
-                    <a href="#">Jurnal Ilmiah</a>
-                    <a href="#">Komunitas Edu</a>
+                    <a href="#">Kemahasiswaan</a>
+                    <a href="#">Artikel Pengabdian</a>
+                    <a href="#">Opini</a>
                 </div>
             </div>
 
@@ -552,14 +580,14 @@
             </div>
         </div>
 
-        <!-- HUBUNGI SAYA + SOSMED -->
+        <!-- HUBUNGI SAYA + SOSMED (bagian bawah, tetap dipertahankan) -->
         <div class="contact-section">
             <h3><i class="fas fa-address-card"></i> Hubungi Saya</h3>
             <div class="social-icons">
                 <a href="https://www.instagram.com/amienzraptor/" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://vm.tiktok.com/ZS9FDbjBTy9TS-XlS2J/" target="_blank"><i class="fab fa-tiktok"></i></a>
-                <a href="https://www.youtube.com/@scibreak6785" target="_blank"><i class="fab fa-youtube"></i></a>
-                <a href="https://api.whatsapp.com/send/?phone=%2B6283850298181&text&type=phone_number&app_absent=0 " target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://vm.tiktok.com/ZS9FDbjBTy9TS-XlS2J/" target="_blank"><i class="fab fa-tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.youtube.com/@scibreak6785" target="_blank"><i class="fab fa-youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://api.whatsapp.com/send/?phone=%2B6283850298181&text&type=phone_number&app_absent=0" target="_blank"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
 
@@ -570,12 +598,11 @@
 </div>
 
 <script>
-    // ========== 1. TOGGLE SIDEBAR (icon ☰ show/hide) ==========
+    // ========== 1. TOGGLE SIDEBAR ==========
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebarBtn');
     toggleBtn.addEventListener('click', () => {
         sidebar.classList.toggle('hidden');
-        // Tidak perlu mengganti teks, hanya ikon hamburger saja
     });
 
     // ========== 2. ICON HOME (scroll ke atas) ==========
@@ -604,9 +631,7 @@
 
     function startAutoSlide() {
         if (autoSlideInterval) clearInterval(autoSlideInterval);
-        autoSlideInterval = setInterval(() => {
-            nextSlide();
-        }, 3800);
+        autoSlideInterval = setInterval(nextSlide, 3800);
     }
 
     if (slides.length > 0) {
@@ -615,26 +640,39 @@
         const sliderContainer = document.querySelector('.slider-container');
         if (sliderContainer) {
             sliderContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-            sliderContainer.addEventListener('mouseleave', () => startAutoSlide());
+            sliderContainer.addEventListener('mouseleave', startAutoSlide);
         }
     }
 
-    // ========== 4. FEATURE ICONS (alert sementara) ==========
+    // ========== 4. FEATURE ICONS (arahkan ke halaman masing-masing) ==========
     const eLearning = document.getElementById('btnElearning');
     const validasi = document.getElementById('btnValidasi');
     const skripsi = document.getElementById('btnSkripsi');
-    eLearning.addEventListener('click', () => alert('🚀 Halaman E-learning akan segera hadir.'));
-    validasi.addEventListener('click', () => alert('✅ Fitur Validasi Karya Ilmiah. Segera tersedia.'));
-    skripsi.addEventListener('click', () => alert('📚 Pusat Referensi Skripsi & Tugas Akhir Sains.'));
-
-    // ========== 5. SIDEBAR MENU (custom alert) ==========
-    const sideMenuItems = document.querySelectorAll('.sidebar-menu li');
-    sideMenuItems.forEach((item, idx) => {
-        item.addEventListener('click', () => {
-            const menuText = item.querySelector('span')?.innerText || `Menu ${idx+1}`;
-            alert(`Anda memilih: ${menuText}\n(nanti link ke halaman sesuai kebutuhan)`);
-        });
+    
+    eLearning.addEventListener('click', () => {
+        window.location.href = 'elearning.html'; // ganti dengan halaman e-learning
     });
+    validasi.addEventListener('click', () => {
+        window.location.href = 'validasi.html'; // arahkan ke halaman validasi
+    });
+    skripsi.addEventListener('click', () => {
+        window.location.href = 'skripsi.html'; // ganti dengan halaman skripsi
+    });
+
+    // ========== 5. SIDEBAR MENU ==========
+const sideMenuItems = document.querySelectorAll('.sidebar-menu li');
+sideMenuItems.forEach((item, idx) => {
+    item.addEventListener('click', () => {
+        const menuText = item.querySelector('span')?.innerText || `Menu ${idx+1}`;
+        
+        // Arahkan ke halaman tentang jika menu "Tentang" diklik
+        if (menuText === 'Tentang') {
+            window.location.href = 'tentang.html';
+        } else {
+            alert(`Anda memilih: ${menuText}\n(nanti link ke halaman sesuai kebutuhan)`);
+        }
+    });
+});
 </script>
 </body>
 </html>
