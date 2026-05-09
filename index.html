@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>M. Amien Rais | Edukasi & Sains</title>
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome 6 (gunakan versi stabil terbaru) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -177,7 +177,7 @@
             margin-top: 0;
         }
 
-        /* Social icons di header (mirip dengan yang di footer, tapi ukuran lebih kecil) */
+        /* Social icons di header (lebih kecil) */
         .header-social {
             display: flex;
             gap: 12px;
@@ -515,7 +515,7 @@
             </div>
         </div>
 
-        <!-- 3 DROPDOWN + home icon (sesuai file Anda) -->
+        <!-- 3 DROPDOWN + home icon -->
         <div class="dropdown-navbar">
             <!-- Dropdown 1 -->
             <div class="custom-dropdown">
@@ -580,13 +580,13 @@
             </div>
         </div>
 
-        <!-- HUBUNGI SAYA + SOSMED (bagian bawah, tetap dipertahankan) -->
+        <!-- HUBUNGI SAYA + SOSMED (bagian bawah) -->
         <div class="contact-section">
             <h3><i class="fas fa-address-card"></i> Hubungi Saya</h3>
             <div class="social-icons">
                 <a href="https://www.instagram.com/amienzraptor/" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://vm.tiktok.com/ZS9FDbjBTy9TS-XlS2J/" target="_blank"><i class="fab fa-tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
-                <a href="https://www.youtube.com/@scibreak6785" target="_blank"><i class="fab fa-youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="https://vm.tiktok.com/ZS9FDbjBTy9TS-XlS2J/" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="https://www.youtube.com/@scibreak6785" target="_blank"><i class="fab fa-youtube"></i></a>
                 <a href="https://api.whatsapp.com/send/?phone=%2B6283850298181&text&type=phone_number&app_absent=0" target="_blank"><i class="fab fa-whatsapp"></i></a>
             </div>
         </div>
@@ -650,29 +650,27 @@
     const skripsi = document.getElementById('btnSkripsi');
     
     eLearning.addEventListener('click', () => {
-        window.location.href = 'elearning.html'; // ganti dengan halaman e-learning
+        window.location.href = 'elearning.html';
     });
     validasi.addEventListener('click', () => {
-        window.location.href = 'validasi.html'; // arahkan ke halaman validasi
+        window.location.href = 'validasi.html';
     });
     skripsi.addEventListener('click', () => {
-        window.location.href = 'skripsi.html'; // ganti dengan halaman skripsi
+        window.location.href = 'skripsi.html';
     });
 
     // ========== 5. SIDEBAR MENU ==========
-const sideMenuItems = document.querySelectorAll('.sidebar-menu li');
-sideMenuItems.forEach((item, idx) => {
-    item.addEventListener('click', () => {
-        const menuText = item.querySelector('span')?.innerText || `Menu ${idx+1}`;
-        
-        // Arahkan ke halaman tentang jika menu "Tentang" diklik
-        if (menuText === 'Tentang') {
-            window.location.href = 'tentang.html';
-        } else {
-            alert(`Anda memilih: ${menuText}\n(nanti link ke halaman sesuai kebutuhan)`);
-        }
+    const sideMenuItems = document.querySelectorAll('.sidebar-menu li');
+    sideMenuItems.forEach((item, idx) => {
+        item.addEventListener('click', () => {
+            const menuText = item.querySelector('span')?.innerText || `Menu ${idx+1}`;
+            if (menuText === 'Tentang') {
+                window.location.href = 'tentang.html';
+            } else {
+                alert(`Anda memilih: ${menuText}\n(nanti link ke halaman sesuai kebutuhan)`);
+            }
+        });
     });
-});
 </script>
 </body>
 </html>
