@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat dengan Claude</title>
+<title>Chat dengan Qwen</title>
 <style>
   :root {
     --bg: #f7f7f8;
@@ -134,7 +134,7 @@
 <body>
 <div id="app">
   <header>
-    <h1>Chat dengan <span>Claude</span></h1>
+    <h1>Chat dengan <span>Qwen</span></h1>
     <button id="settingsBtn" title="Pengaturan">⚙︎ Pengaturan</button>
   </header>
 
@@ -142,7 +142,7 @@
 
   <div id="empty">
     <div class="big">Mulai percakapan</div>
-    <div>Masukkan API key Claude Anda di Pengaturan untuk memulai.</div>
+    <div>Masukkan API key Qwen (DashScope) Anda di Pengaturan untuk memulai.</div>
   </div>
 
   <div id="messages" style="display:none;"></div>
@@ -157,18 +157,24 @@
   <div id="settingsPanel">
     <h2>Pengaturan</h2>
 
-    <label for="apiKey">Claude API Key</label>
-    <input id="apiKey" type="password" placeholder="sk-ant-...">
+    <label for="apiKey">Qwen (DashScope) API Key</label>
+    <input id="apiKey" type="password" placeholder="sk-...">
     <div class="hint">
-      Key disimpan <strong>hanya di browser Anda</strong> (localStorage), tidak pernah dikirim ke mana pun selain api.anthropic.com. Dapatkan key di console.anthropic.com.
+      Key disimpan <strong>hanya di browser Anda</strong> (localStorage), tidak pernah dikirim ke mana pun selain endpoint DashScope yang dipilih di bawah. Dapatkan key di dashscope.console.aliyun.com.
     </div>
+
+    <label for="endpoint">Endpoint</label>
+    <select id="endpoint">
+      <option value="https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions">Internasional (dashscope-intl.aliyuncs.com)</option>
+      <option value="https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions">China (dashscope.aliyuncs.com)</option>
+    </select>
 
     <label for="model">Model</label>
     <select id="model">
-      <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
-      <option value="claude-opus-5-5">Claude Opus 5.5</option>
-      <option value="claude-haiku-5-5">Claude Haiku 5.5</option>
-      <option value="claude-fable-5-1">Claude Fable 5.1</option>
+      <option value="qwen-plus">Qwen Plus</option>
+      <option value="qwen-max">Qwen Max</option>
+      <option value="qwen-turbo">Qwen Turbo</option>
+      <option value="qwen3-max">Qwen3 Max</option>
     </select>
 
     <label for="systemPrompt">System prompt (opsional)</label>
@@ -188,10 +194,11 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "claude_chat_api_key";
-  var STORAGE_MODEL = "claude_chat_model";
-  var STORAGE_SYSTEM = "claude_chat_system";
-  var API_URL = "https://api.anthropic.com/v1/messages";
+  var STORAGE_KEY = "qwen_chat_api_key";
+  var STORAGE_MODEL = "qwen_chat_model";
+  var STORAGE_SYSTEM = "qwen_chat_system";
+  var STORAGE_ENDPOINT = "qwen_chat_endpoint";
+  var DEFAULT_ENDPOINT = "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions";
 
   var messages = [];
   var history = [];
@@ -211,6 +218,7 @@
   var $apiKey = document.getElementById("apiKey");
   var $model = document.getElementById("model");
   var $systemPrompt = document.getElementById("systemPrompt");
+  var $endpoint = document.getElementById("endpoint");
 
   function safeGet(key) {
     try { return localStorage.getItem(key); } catch (e) { return null; }
@@ -224,8 +232,9 @@
 
   function loadSettings() {
     $apiKey.value = safeGet(STORAGE_KEY) || "";
-    $model.value = safeGet(STORAGE_MODEL) || "claude-sonnet-5-5";
+    $model.value = safeGet(STORAGE_MODEL) || "qwen-plus";
     $systemPrompt.value = safeGet(STORAGE_SYSTEM) || "";
+    $endpoint.value = safeGet(STORAGE_ENDPOINT) || DEFAULT_ENDPOINT;
   }
 
   function openSettings() { $overlay.classList.add("show"); }
@@ -241,6 +250,7 @@
     safeSet(STORAGE_KEY, $apiKey.value.trim());
     safeSet(STORAGE_MODEL, $model.value);
     safeSet(STORAGE_SYSTEM, $systemPrompt.value);
+    safeSet(STORAGE_ENDPOINT, $endpoint.value);
     closeSettings();
     hideError();
   });
@@ -250,6 +260,7 @@
     safeRemove(STORAGE_KEY);
     safeRemove(STORAGE_MODEL);
     safeRemove(STORAGE_SYSTEM);
+    safeRemove(STORAGE_ENDPOINT);
     history = [];
     renderMessages();
     loadSettings();
@@ -309,7 +320,7 @@
 
     var apiKey = safeGet(STORAGE_KEY);
     if (!apiKey) {
-      showError("Masukkan API key Claude Anda di Pengaturan terlebih dahulu.");
+      showError("Masukkan API key Qwen Anda di Pengaturan terlebih dahulu.");
       openSettings();
       return;
     }
@@ -327,31 +338,29 @@
     var bubbleEl = $messages.lastElementChild.querySelector(".bubble");
     bubbleEl.innerHTML = '<span class="typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
 
-    var model = safeGet(STORAGE_MODEL) || "claude-sonnet-5-5";
+    var model = safeGet(STORAGE_MODEL) || "qwen-plus";
     var system = safeGet(STORAGE_SYSTEM) || "";
+    var apiUrl = safeGet(STORAGE_ENDPOINT) || DEFAULT_ENDPOINT;
 
     var apiMessages = history
       .filter(function (m) { return m.role === "user" || m.role === "assistant"; })
       .slice(0, -1)
       .map(function (m) { return { role: m.role, content: m.content }; });
     apiMessages.push({ role: "user", content: text });
+    if (system) apiMessages.unshift({ role: "system", content: system });
 
     var body = {
       model: model,
-      max_tokens: 4096,
       messages: apiMessages,
       stream: true
     };
-    if (system) body.system = system;
 
     try {
-      var resp = await fetch(API_URL, {
+      var resp = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": apiKey,
-          "anthropic-version": "2023-06-01",
-          "anthropic-dangerous-direct-browser-access": "true"
+          "Authorization": "Bearer " + apiKey
         },
         body: JSON.stringify(body)
       });
@@ -359,7 +368,7 @@
       if (!resp.ok) {
         var errData = null;
         try { errData = await resp.json(); } catch (e) {}
-        var msg = (errData && errData.error && errData.error.message) || ("HTTP " + resp.status);
+        var msg = (errData && ((errData.error && errData.error.message) || errData.message)) || ("HTTP " + resp.status);
         throw new Error(msg);
       }
 
@@ -378,17 +387,20 @@
         for (var i = 0; i < lines.length; i++) {
           var line = lines[i];
           if (line.indexOf("data: ") !== 0) continue;
-          var payload = line.slice(6);
+          var payload = line.slice(6).trim();
           if (payload === "[DONE]") continue;
           var evt;
           try { evt = JSON.parse(payload); } catch (e) { continue; }
-          if (evt.type === "content_block_delta" && evt.delta && evt.delta.type === "text_delta") {
+          if (evt.error) {
+            throw new Error(evt.error.message || "Streaming error");
+          }
+          var choice = evt.choices && evt.choices[0];
+          var delta = choice && choice.delta && choice.delta.content;
+          if (delta) {
             if (first) { bubbleEl.textContent = ""; first = false; }
-            full += evt.delta.text;
+            full += delta;
             bubbleEl.textContent = full;
             $messages.scrollTop = $messages.scrollHeight;
-          } else if (evt.type === "error") {
-            throw new Error((evt.error && evt.error.message) || "Streaming error");
           }
         }
       }
