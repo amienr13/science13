@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <title>Anatomi &amp; Morfologi Ginjal — Atlas 3D Interaktif</title>
+  <meta name="description" content="Pembelajaran interaktif 3D anatomi dan morfologi ginjal untuk mahasiswa semester awal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="scene"></canvas>
+
+    <header id="topbar">
+      <div class="title-block">
+        <p class="eyebrow">Anatomi &amp; Fisiologi Makhluk Hidup</p>
+        <h1>Anatomi &amp; Morfologi Ginjal</h1>
+      </div>
+      <div class="view-toggle" role="group" aria-label="Mode tampilan">
+        <button id="btn-whole" class="toggle-btn is-active" type="button">Tampilan Utuh</button>
+        <button id="btn-cross" class="toggle-btn" type="button">Potongan Melintang</button>
+      </div>
+    </header>
+
+    <aside id="panel">
+      <nav id="structure-list" aria-label="Daftar struktur ginjal">
+        <p class="panel-label">Bagian Ginjal</p>
+        <ul id="structure-items"></ul>
+      </nav>
+
+      <section id="description" aria-live="polite">
+        <h2 id="desc-title">Ginjal</h2>
+        <p id="desc-body">
+          Ginjal adalah organ berbentuk seperti kacang merah yang berperan menyaring darah,
+          membuang zat sisa metabolisme, dan menjaga keseimbangan cairan serta elektrolit tubuh.
+          Pilih salah satu bagian di samping, atau sentuh langsung model 3D, untuk mempelajari
+          strukturnya lebih lanjut.
+        </p>
+      </section>
+    </aside>
+
+    <p id="hint">Seret untuk memutar &middot; cubit/scroll untuk memperbesar</p>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
